@@ -6,16 +6,16 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: opencds-rckms
+    app: opencds
   ports:
   - port: 8080
-    name: opencds-rckms-port
+    name: opencds-port
     targetPort: tomcat-web
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: opencds-rckms
+  name: opencds
 spec:
   replicas: 1
   strategy:
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app: opencds-rckms
+        app: opencds
     spec:
       tolerations:
       - key: preemptible
@@ -31,7 +31,7 @@ spec:
         value: "1"
         effect: NoSchedule
       containers:
-      - name: opencds-rckms
+      - name: opencds
         image: opencds-rckms
         imagePullPolicy: Never
         ports:
