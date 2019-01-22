@@ -1,0 +1,50 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opencds
+spec:
+  type: ClusterIP
+  selector:
+    app: opencds
+  ports:
+  - port: 8080
+    name: opencds-port
+    targetPort: tomcat-web
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: opencds
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: opencds
+    spec:
+      containers:
+      - name: opencds
+        image: gcr.io/hln-rckms/opencds-rckms:latest
+        imagePullPolicy: Always
+        env:
+        - name: VAULT_GKE_NAME
+          value: gke-service-mesh-3
+        - name: VAULT_GKE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: vault-tokenreview-token-nh24d
+              key: token
+        ports:
+        - name: tomcat-web
+          containerPort: 8080
+        resources:
+          limits:
+            cpu: 256m
+            memory: 1024Mi
