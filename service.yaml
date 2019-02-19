@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: opencds
-        image: gcr.io/hln-rckms/opencds-rckms:latest
+        image: us.gcr.io/hln-rckms/opencds-rckms:latest
         imagePullPolicy: Always
         env:
         - name: VAULT_GKE_NAME
@@ -46,5 +46,5 @@ spec:
           containerPort: 8080
         resources:
           limits:
-            cpu: 256m
-            memory: 1024Mi
+            cpu: 1
+            memory: 2048Mi
