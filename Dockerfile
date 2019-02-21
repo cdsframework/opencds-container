@@ -1,4 +1,4 @@
-FROM tomcat:7-jre8-alpine AS build
+FROM tomcat:9-jre8-alpine AS build
 
 # Metadata
 LABEL organization="HLN Consulting, LLC"
@@ -7,7 +7,7 @@ LABEL maintainer="Andrew Slattery <andrew@hln.com>"
 # Tomcat Server
 EXPOSE 8080
 
-ENV JAVA_OPTS -Dcds.endpoint.test=http://localhost:8080/opencds-decision-support-service-test/evaluate -Dcds.endpoint.production=http://localhost:8080/opencds-decision-support-service/evaluate
+ENV JAVA_OPTS -Xmx1945m -Dcds.endpoint.test=http://localhost:8080/opencds-decision-support-service-test/evaluate -Dcds.endpoint.production=http://localhost:8080/opencds-decision-support-service/evaluate
 
 # Copy OpenCDS Decision Support Service to Tomcat Webapps directory
 COPY opencds-container/opencds-decision-support-service.war /usr/local/tomcat/webapps/
