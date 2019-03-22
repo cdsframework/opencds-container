@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: docker-build
+  args: ['build', '-t', 'gcr.io/hln-rckms/${_SVC}:$REVISION_ID', '--build-arg', 'cid_release=${COMMIT_SHA}', '-t', 'gcr.io/hln-rckms/${_SVC}:latest', '--cache-from', 'gcr.io/hln-rckms/${_SVC}:latest', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  id: docker-push-revision
+  args: ["push", "gcr.io/hln-rckms/${_SVC}:$REVISION_ID"]
+- name: 'gcr.io/cloud-builders/docker'
+  id: docker-push-latest
+  args: ["push", "gcr.io/hln-rckms/${_SVC}:latest"]
+images: ['gcr.io/hln-rckms/${_SVC}']
